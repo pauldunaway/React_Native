@@ -17,21 +17,28 @@ import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from "react-navigation";
 import { Icon } from "react-native-elements";
 import SafeAreaView from "react-native-safe-area-view";
-import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
+import {fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
+import { connect } from "react-redux";
+
+const mapDispatchToProps = {
+    fetchCampsites,
+    fetchComments,
+    fetchPromotions,
+    fetchPartners
+};
 
 const DirectoryNavigator = createStackNavigator(
     {
         Directory: {
             screen: Directory,
             navigationOptions: ({ navigation }) => ({
-                headerLeft: (
-                    <Icon
+                headerLeft: <Icon
                         name="list"
                         type="font-awesome"
                         iconStyle={styles.stackIcon}
                         onPress={() => navigation.toggleDrawer()}
                     />
-                ),
+                
             }),
         },
 
@@ -214,6 +221,14 @@ const MainNavigator = createDrawerNavigator(
 const AppNavigator = createAppContainer(MainNavigator);
 
 class Main extends Component {
+
+    componentDidMount() {
+        this.props.fetchCampsites();
+        this.props.fetchComments();
+        this.props.fetchPartners();
+        this.props.fetchPromotions();
+    }
+
     render() {
         return (
             <View
@@ -260,4 +275,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Main;
+export default connect(null, mapDispatchToProps)(Main);
