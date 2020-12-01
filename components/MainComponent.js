@@ -77,7 +77,7 @@ const HomeNavigator = createStackNavigator(
             },
             headerTintColor: "#fff",
             headerTitleStyle: {
-                color: "#fff",
+                color: "#ffff",
             },
             headerLeft: (
                 <Icon
