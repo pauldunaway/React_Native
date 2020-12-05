@@ -70,6 +70,7 @@ function RenderCampsite(props) {
     const view = React.createRef();
 
     const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+    const recognizeComment =({dx}) => (dx > 220) ? true : false;
 
         const panResponder = PanResponder.create({
             onStartShouldSetPanResponder: () => true,
@@ -82,21 +83,23 @@ function RenderCampsite(props) {
             if (recognizeDrag(gestureState)) {
                 Alert.alert(
                     'Add Favorite',
-                    'Are you sure you wish to add ' + campsite.name + ' to favorites?',
+                    'Are you sure you want to add ' + campsite.name + ' to favorites?',
                     [
                         {
                             text: 'Cancel',
                             style: 'cancel',
-                            onPress: () => console.log('Cancel Pressed')
+                            onPress: () => console.log("Cancel pressed")
                         },
                         {
                             text: 'OK',
-                            onPress: () => props.favorite ?
-                                console.log('Already set as a favorite') : props.markFavorite()
+                            onPress: ()=> props.favorite ? console.log('Already a favorite!') 
+                            : props.markFavorite()
                         }
                     ],
-                    { cancelable: false }
+                    {cancelable: false}
                 );
+            } else if (recognizeComment(gestureState)) {
+                props.onShowModal();
             }
             return true;
         }
